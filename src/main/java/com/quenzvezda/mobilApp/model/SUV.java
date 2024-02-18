@@ -13,13 +13,18 @@ import java.math.BigDecimal;
 @Entity
 @Builder
 @AllArgsConstructor
-@Table(name = "SUV")
+@Table(name = "suv")
 public class SUV {
     @Id
     private Long mobilId;
+
+    @Column(name = "kapasitas_penumpang")
     private Integer kapasitasPenumpang;
+
+    @Column(name = "ground_clearance")
     private BigDecimal groundClearance;
 
+    @MapsId
     @OneToOne
     @JoinColumn(name = "mobil_id", referencedColumnName = "id")
     private Mobil mobil;

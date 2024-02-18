@@ -6,26 +6,27 @@ import java.math.BigDecimal;
 
 @Data
 public class MobilCreationDto {
-    // Informasi umum mobil
+    private String noRangka; // Tambahkan field ini
     private Integer tahun;
     private String warna;
     private String status;
 
-    // Spesifik untuk Sedan
     private String jenisMobil; // "Sedan" atau "SUV"
     private String merk; // "Ford" atau "Porche"
-    private BigDecimal panjangBodi; // Hanya untuk Sedan
-    private String tipeAtap; // Hanya untuk Sedan
+
+    // Spesifik untuk Sedan
+    private BigDecimal panjangBodi;
+    private String tipeAtap;
 
     // Spesifik untuk SUV
-    private Integer kapasitasPenumpang; // Hanya untuk SUV
-    private BigDecimal groundClearance; // Hanya untuk SUV
+    private Integer kapasitasPenumpang;
+    private BigDecimal groundClearance;
 
     // Spesifik untuk Porche
-    private Integer kecepatanMaksimal; // Hanya untuk Porche
-    private String tipeSuspensi; // Hanya untuk Porche
+    private Integer kecepatanMaksimal;
+    private String tipeSuspensi;
 
     // Spesifik untuk Ford
-    private String tipeMesin; // Hanya untuk Ford
-    private Integer kapasitasTangkiBahanBakar; // Hanya untuk Ford
+    private String tipeMesin;
+    private Integer kapasitasTangkiBahanBakar;
 }

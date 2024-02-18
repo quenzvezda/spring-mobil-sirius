@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Mobil")
+@Table(name = "mobil")
 public class Mobil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "no_rangka")
     private String noRangka;
     private Integer tahun;
     private String warna;

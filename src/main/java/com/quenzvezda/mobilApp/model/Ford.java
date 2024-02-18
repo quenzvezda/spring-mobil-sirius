@@ -11,13 +11,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Ford")
+@Table(name = "ford")
 public class Ford {
     @Id
     private Long mobilId;
+
+    @Column(name = "tipe_mesin")
     private String tipeMesin;
+
+    @Column(name = "kapasitas_tangki_bahan_bakar")
     private Integer kapasitasTangkiBahanBakar;
 
+    @MapsId
     @OneToOne
     @JoinColumn(name = "mobil_id", referencedColumnName = "id")
     private Mobil mobil;
