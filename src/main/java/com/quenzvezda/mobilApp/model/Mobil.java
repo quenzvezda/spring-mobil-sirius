@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Mobil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String noRangka;
     private Integer tahun;
     private String warna;
