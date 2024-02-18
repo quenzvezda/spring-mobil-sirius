@@ -1,12 +1,13 @@
 package com.quenzvezda.mobilApp.service;
 
+import com.quenzvezda.mobilApp.dto.MobilDto;
 import com.quenzvezda.mobilApp.model.Mobil;
 
 import java.util.List;
 
 public interface MobilService {
-    List<Mobil> findAll();
-    Mobil findById(Long id);
-    Mobil save(Mobil mobil);
+    List<MobilDto> findAll();
+    MobilDto findById(Long id);
+    MobilDto save(MobilDto mobilDto);
     void deleteById(Long id);
 }
