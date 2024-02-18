@@ -14,4 +14,6 @@ public interface MobilCrudService {
     void deleteMobil(Long mobilId);
 
     MobilDetailDto findMobilById(Long mobilId);
+
+    void updateMobil(Long mobilId, MobilCreationDto mobilCreationDto);
 }

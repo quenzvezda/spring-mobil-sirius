@@ -148,4 +148,51 @@ public class MobilCrudServiceImpl implements MobilCrudService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan"));
         return convertToMobilDetailDto(mobil);
     }
+
+    @Override
+    @Transactional
+    public void updateMobil(Long mobilId, MobilCreationDto mobilCreationDto) {
+        Mobil mobil = mobilRepository.findById(mobilId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan"));
+
+        // Update properti mobil
+        mobil.setNoRangka(mobilCreationDto.getNoRangka());
+        mobil.setTahun(mobilCreationDto.getTahun());
+        mobil.setWarna(mobilCreationDto.getWarna());
+        mobil.setStatus(mobilCreationDto.getStatus());
+        mobilRepository.save(mobil);
+
+        // Update properti khusus berdasarkan jenis mobil dan merk
+        if ("sedan".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+            // Update atau buat objek Sedan
+            Sedan sedan = mobil.getSedan() != null ? mobil.getSedan() : new Sedan();
+            sedan.setMobil(mobil);
+            sedan.setPanjangBodi(mobilCreationDto.getPanjangBodi());
+            sedan.setTipeAtap(mobilCreationDto.getTipeAtap());
+            sedanRepository.save(sedan);
+        } else if ("suv".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+            // Update atau buat objek SUV
+            SUV suv = mobil.getSuv() != null ? mobil.getSuv() : new SUV();
+            suv.setMobil(mobil);
+            suv.setKapasitasPenumpang(mobilCreationDto.getKapasitasPenumpang());
+            suv.setGroundClearance(mobilCreationDto.getGroundClearance());
+            suvRepository.save(suv);
+        }
+
+        if ("porche".equalsIgnoreCase(mobilCreationDto.getMerk())) {
+            // Update atau buat objek Porche
+            Porche porche = mobil.getPorche() != null ? mobil.getPorche() : new Porche();
+            porche.setMobil(mobil);
+            porche.setKecepatanMaksimal(mobilCreationDto.getKecepatanMaksimal());
+            porche.setTipeSuspensi(mobilCreationDto.getTipeSuspensi());
+            porcheRepository.save(porche);
+        } else if ("ford".equalsIgnoreCase(mobilCreationDto.getMerk())) {
+            // Update atau buat objek Ford
+            Ford ford = mobil.getFord() != null ? mobil.getFord() : new Ford();
+            ford.setMobil(mobil);
+            ford.setTipeMesin(mobilCreationDto.getTipeMesin());
+            ford.setKapasitasTangkiBahanBakar(mobilCreationDto.getKapasitasTangkiBahanBakar());
+            fordRepository.save(ford);
+        }
+    }
 }

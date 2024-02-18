@@ -39,4 +39,11 @@ public class MobilCrudController {
         MobilDetailDto mobilDetailDto = mobilCrudService.findMobilById(mobilId);
         return ResponseEntity.ok(mobilDetailDto);
     }
+
+    @PutMapping("/{mobilId}")
+    public ResponseEntity<?> updateMobil(@PathVariable Long mobilId, @RequestBody MobilCreationDto mobilCreationDto) {
+        mobilCrudService.updateMobil(mobilId, mobilCreationDto);
+        return ResponseEntity.ok().build();
+    }
+
 }
