@@ -5,36 +5,44 @@ import com.quenzvezda.mobilApp.dto.MobilResponseDto;
 import com.quenzvezda.mobilApp.model.*;
 import com.quenzvezda.mobilApp.repository.*;
 import com.quenzvezda.mobilApp.service.MobilCrudService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
+@Service
 public class MobilCrudServiceImpl implements MobilCrudService {
+    @Autowired
     private MobilRepository mobilRepository;
+    @Autowired
     private SedanRepository sedanRepository;
+    @Autowired
     private SUVRepository suvRepository;
+    @Autowired
     private PorcheRepository porcheRepository;
+    @Autowired
     private FordRepository fordRepository;
+    @Autowired
     private JenisMobilRepository jenisMobilRepository;
 
     @Override
     @Transactional
     public MobilResponseDto createMobil(MobilCreationDto mobilCreationDto) {
         Mobil mobil = new Mobil();
+        mobil.setNoRangka(mobilCreationDto.getNoRangka());
         mobil.setTahun(mobilCreationDto.getTahun());
         mobil.setWarna(mobilCreationDto.getWarna());
         mobil.setStatus(mobilCreationDto.getStatus());
         mobil = mobilRepository.save(mobil);
 
-        JenisMobil jenisMobil = new JenisMobil();
-        jenisMobil.setNama(mobilCreationDto.getJenisMobil());
-        jenisMobil = jenisMobilRepository.save(jenisMobil);
-
-        if ("Sedan".equals(mobilCreationDto.getJenisMobil())) {
+        if ("sedan".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
             Sedan sedan = new Sedan();
             sedan.setMobil(mobil);
             sedan.setPanjangBodi(mobilCreationDto.getPanjangBodi());
             sedan.setTipeAtap(mobilCreationDto.getTipeAtap());
             sedanRepository.save(sedan);
-        } else if ("SUV".equals(mobilCreationDto.getJenisMobil())) {
+        } else if ("suv".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
             SUV suv = new SUV();
             suv.setMobil(mobil);
             suv.setKapasitasPenumpang(mobilCreationDto.getKapasitasPenumpang());
@@ -42,31 +50,43 @@ public class MobilCrudServiceImpl implements MobilCrudService {
             suvRepository.save(suv);
         }
 
-        if ("Porche".equals(mobilCreationDto.getMerk())) {
+
+        if ("porche".equalsIgnoreCase(mobilCreationDto.getMerk())) {
             Porche porche = new Porche();
             porche.setMobil(mobil);
-            porche.setJenisMobil(jenisMobil);
             porche.setKecepatanMaksimal(mobilCreationDto.getKecepatanMaksimal());
             porche.setTipeSuspensi(mobilCreationDto.getTipeSuspensi());
+            // Set jenis_mobil_id berdasarkan jenisMobil
+            if ("sedan".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+                porche.setJenisMobil(jenisMobilRepository.findById(1L).orElse(null));
+            } else if ("suv".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+                porche.setJenisMobil(jenisMobilRepository.findById(2L).orElse(null));
+            }
             porcheRepository.save(porche);
-        } else if ("Ford".equals(mobilCreationDto.getMerk())) {
+        } else if ("ford".equalsIgnoreCase(mobilCreationDto.getMerk())) {
             Ford ford = new Ford();
             ford.setMobil(mobil);
-            ford.setJenisMobil(jenisMobil);
             ford.setTipeMesin(mobilCreationDto.getTipeMesin());
             ford.setKapasitasTangkiBahanBakar(mobilCreationDto.getKapasitasTangkiBahanBakar());
+            // Set jenis_mobil_id berdasarkan jenisMobil
+            if ("sedan".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+                ford.setJenisMobil(jenisMobilRepository.findById(1L).orElse(null));
+            } else if ("suv".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
+                ford.setJenisMobil(jenisMobilRepository.findById(2L).orElse(null));
+            }
             fordRepository.save(ford);
         }
 
-        // Buat dan kembalikan MobilResponseDTO
-        MobilResponseDto responseDTO = new MobilResponseDto();
-        responseDTO.setMobilId(mobil.getId());
-        responseDTO.setJenisMobil(mobilCreationDto.getJenisMobil());
-        responseDTO.setMerk(mobilCreationDto.getMerk());
-        responseDTO.setTahun(mobil.getTahun());
-        responseDTO.setWarna(mobil.getWarna());
-        responseDTO.setStatus(mobil.getStatus());
-        // Set other properties of responseDTO based on the created entities
-        return responseDTO;
+
+        MobilResponseDto responseDto = new MobilResponseDto();
+        responseDto.setMobilId(mobil.getId());
+        responseDto.setTahun(mobil.getTahun());
+        responseDto.setWarna(mobil.getWarna());
+        responseDto.setStatus(mobil.getStatus());
+        responseDto.setJenisMobil(mobilCreationDto.getJenisMobil());
+        responseDto.setMerk(mobilCreationDto.getMerk());
+        // Set other properties of responseDto based on the created entities
+        return responseDto;
     }
+
 }
