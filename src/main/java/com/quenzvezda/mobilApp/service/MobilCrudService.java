@@ -12,4 +12,6 @@ public interface MobilCrudService {
     List<MobilDetailDto> getAllMobilDetails();
 
     void deleteMobil(Long mobilId);
+
+    MobilDetailDto findMobilById(Long mobilId);
 }

@@ -141,4 +141,11 @@ public class MobilCrudServiceImpl implements MobilCrudService {
         }
         mobilRepository.deleteById(mobilId);
     }
+
+    @Override
+    public MobilDetailDto findMobilById(Long mobilId) {
+        Mobil mobil = mobilRepository.findById(mobilId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan"));
+        return convertToMobilDetailDto(mobil);
+    }
 }

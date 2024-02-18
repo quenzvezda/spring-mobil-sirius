@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mobil")
-@CrossOrigin(origins = "http://localhost:8082") // CORS Url Front-end
 public class MobilCrudController {
     @Autowired
     private MobilCrudService mobilCrudService;
@@ -35,4 +34,9 @@ public class MobilCrudController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{mobilId}")
+    public ResponseEntity<MobilDetailDto> getMobilById(@PathVariable Long mobilId) {
+        MobilDetailDto mobilDetailDto = mobilCrudService.findMobilById(mobilId);
+        return ResponseEntity.ok(mobilDetailDto);
+    }
 }
