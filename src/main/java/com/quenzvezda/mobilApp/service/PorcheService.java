@@ -8,6 +8,6 @@ import java.util.List;
 public interface PorcheService {
     List<PorcheDto> findAll();
     PorcheDto findById(Long mobilId);
-    PorcheDto save(PorcheDto porscheDTO);
+    PorcheDto save(PorcheDto porcheDto);
     void deleteById(Long mobilId);
 }
