@@ -1,9 +1,12 @@
 package com.quenzvezda.mobilApp.service.impl;
 
 import com.quenzvezda.mobilApp.dto.SedanDto;
+import com.quenzvezda.mobilApp.model.Mobil;
 import com.quenzvezda.mobilApp.model.Sedan;
+import com.quenzvezda.mobilApp.repository.MobilRepository;
 import com.quenzvezda.mobilApp.repository.SedanRepository;
 import com.quenzvezda.mobilApp.service.SedanService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class SedanServiceImpl implements SedanService {
     private SedanRepository sedanRepository;
+    private MobilRepository mobilRepository;
+
+    public SedanServiceImpl(SedanRepository sedanRepository, MobilRepository mobilRepository) {
+        this.sedanRepository = sedanRepository;
+        this.mobilRepository = mobilRepository;
+    }
 
     @Override
     public List<SedanDto> findAll() {
@@ -52,7 +61,12 @@ public class SedanServiceImpl implements SedanService {
         sedan.setMobilId(sedanDTO.getMobilId());
         sedan.setPanjangBodi(sedanDTO.getPanjangBodi());
         sedan.setTipeAtap(sedanDTO.getTipeAtap());
-        // Anda perlu menangani pengaturan Mobil di sini
+
+        // menangani pengaturan Mobil di sini
+        Mobil mobil = mobilRepository.findById(sedanDTO.getMobilId())
+                .orElseThrow(() -> new EntityNotFoundException("Mobil not found with id " + sedanDTO.getMobilId()));
+        sedan.setMobil(mobil);
+
         return sedan;
     }
 }

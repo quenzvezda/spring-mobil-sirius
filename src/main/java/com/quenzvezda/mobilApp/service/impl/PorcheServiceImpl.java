@@ -1,9 +1,12 @@
 package com.quenzvezda.mobilApp.service.impl;
 
 import com.quenzvezda.mobilApp.dto.PorcheDto;
+import com.quenzvezda.mobilApp.model.Mobil;
 import com.quenzvezda.mobilApp.model.Porche;
+import com.quenzvezda.mobilApp.repository.MobilRepository;
 import com.quenzvezda.mobilApp.repository.PorcheRepository;
 import com.quenzvezda.mobilApp.service.PorcheService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class PorcheServiceImpl implements PorcheService {
     private PorcheRepository porcheRepository;
+    private MobilRepository mobilRepository;
+
+    public PorcheServiceImpl(PorcheRepository porcheRepository, MobilRepository mobilRepository) {
+        this.porcheRepository = porcheRepository;
+        this.mobilRepository = mobilRepository;
+    }
 
     @Override
     public List<PorcheDto> findAll() {
@@ -53,7 +62,12 @@ public class PorcheServiceImpl implements PorcheService {
         porche.setMobilId(porcheDto.getMobilId());
         porche.setKecepatanMaksimal(porcheDto.getKecepatanMaksimal());
         porche.setTipeSuspensi(porcheDto.getTipeSuspensi());
+
         // Anda perlu menangani pengaturan JenisMobil di sini
+        Mobil mobil = mobilRepository.findById(porcheDto.getMobilId())
+                .orElseThrow(() -> new EntityNotFoundException("Mobil not found with id " + porcheDto.getMobilId()));
+        porche.setMobil(mobil);
+
         return porche;
     }
 }

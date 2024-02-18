@@ -1,9 +1,12 @@
 package com.quenzvezda.mobilApp.service.impl;
 
 import com.quenzvezda.mobilApp.dto.SUVDto;
+import com.quenzvezda.mobilApp.model.Mobil;
 import com.quenzvezda.mobilApp.model.SUV;
+import com.quenzvezda.mobilApp.repository.MobilRepository;
 import com.quenzvezda.mobilApp.repository.SUVRepository;
 import com.quenzvezda.mobilApp.service.SUVService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class SUVServiceImpl implements SUVService {
     private SUVRepository suvRepository;
+    private MobilRepository mobilRepository;
+
+    public SUVServiceImpl(SUVRepository suvRepository, MobilRepository mobilRepository) {
+        this.suvRepository = suvRepository;
+        this.mobilRepository = mobilRepository;
+    }
 
     @Override
     public List<SUVDto> findAll() {
@@ -52,7 +61,12 @@ public class SUVServiceImpl implements SUVService {
         suv.setMobilId(suvDto.getMobilId());
         suv.setKapasitasPenumpang(suvDto.getKapasitasPenumpang());
         suv.setGroundClearance(suvDto.getGroundClearance());
-        // Anda perlu menangani pengaturan Mobil di sini
+
+        // menangani pengaturan Mobil di sini
+        Mobil mobil = mobilRepository.findById(suvDto.getMobilId())
+                .orElseThrow(() -> new EntityNotFoundException("Mobil not found with id " + suvDto.getMobilId()));
+        suv.setMobil(mobil);
+
         return suv;
     }
 }
