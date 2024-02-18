@@ -28,4 +28,11 @@ public class MobilCrudController {
     public List<MobilDetailDto> getAllMobilDetails() {
         return mobilCrudService.getAllMobilDetails();
     }
+
+    @DeleteMapping("/{mobilId}")
+    public ResponseEntity<?> deleteMobil(@PathVariable Long mobilId) {
+        mobilCrudService.deleteMobil(mobilId);
+        return ResponseEntity.ok().build();
+    }
+
 }

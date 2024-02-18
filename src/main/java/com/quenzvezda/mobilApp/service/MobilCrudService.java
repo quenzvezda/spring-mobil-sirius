@@ -10,4 +10,6 @@ public interface MobilCrudService {
     MobilResponseDto createMobil(MobilCreationDto mobilCreationDto);
 
     List<MobilDetailDto> getAllMobilDetails();
+
+    void deleteMobil(Long mobilId);
 }

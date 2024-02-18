@@ -14,6 +14,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+
 @Service
 public class MobilCrudServiceImpl implements MobilCrudService {
     @Autowired
@@ -129,5 +133,12 @@ public class MobilCrudServiceImpl implements MobilCrudService {
         return dto;
     }
 
-
+    @Override
+    public void deleteMobil(Long mobilId) {
+        // Cek apakah mobil dengan ID tersebut ada di database
+        if (!mobilRepository.existsById(mobilId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan");
+        }
+        mobilRepository.deleteById(mobilId);
+    }
 }
