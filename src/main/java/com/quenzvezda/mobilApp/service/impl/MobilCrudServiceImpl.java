@@ -1,6 +1,7 @@
 package com.quenzvezda.mobilApp.service.impl;
 
 import com.quenzvezda.mobilApp.dto.MobilCreationDto;
+import com.quenzvezda.mobilApp.dto.MobilDetailDto;
 import com.quenzvezda.mobilApp.dto.MobilResponseDto;
 import com.quenzvezda.mobilApp.model.*;
 import com.quenzvezda.mobilApp.repository.*;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MobilCrudServiceImpl implements MobilCrudService {
@@ -88,5 +91,43 @@ public class MobilCrudServiceImpl implements MobilCrudService {
         // Set other properties of responseDto based on the created entities
         return responseDto;
     }
+
+    @Override
+    public List<MobilDetailDto> getAllMobilDetails() {
+        return mobilRepository.findAll().stream().map(this::convertToMobilDetailDto).collect(Collectors.toList());
+    }
+
+    private MobilDetailDto convertToMobilDetailDto(Mobil mobil) {
+        MobilDetailDto dto = new MobilDetailDto();
+        dto.setMobilId(mobil.getId());
+        dto.setNoRangka(mobil.getNoRangka());
+        dto.setTahun(mobil.getTahun());
+        dto.setWarna(mobil.getWarna());
+        dto.setStatus(mobil.getStatus());
+
+        // Tentukan jenis mobil dan merk
+        if (mobil.getSedan() != null) {
+            dto.setJenisMobil("Sedan");
+            dto.setPanjangBodi(mobil.getSedan().getPanjangBodi());
+            dto.setTipeAtap(mobil.getSedan().getTipeAtap());
+        } else if (mobil.getSuv() != null) {
+            dto.setJenisMobil("SUV");
+            dto.setKapasitasPenumpang(mobil.getSuv().getKapasitasPenumpang());
+            dto.setGroundClearance(mobil.getSuv().getGroundClearance());
+        }
+
+        if (mobil.getPorche() != null) {
+            dto.setMerk("Porche");
+            dto.setKecepatanMaksimal(mobil.getPorche().getKecepatanMaksimal());
+            dto.setTipeSuspensi(mobil.getPorche().getTipeSuspensi());
+        } else if (mobil.getFord() != null) {
+            dto.setMerk("Ford");
+            dto.setTipeMesin(mobil.getFord().getTipeMesin());
+            dto.setKapasitasTangkiBahanBakar(mobil.getFord().getKapasitasTangkiBahanBakar());
+        }
+
+        return dto;
+    }
+
 
 }

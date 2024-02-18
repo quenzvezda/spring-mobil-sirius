@@ -22,4 +22,16 @@ public class Mobil {
     private Integer tahun;
     private String warna;
     private String status;
+
+    @OneToOne(mappedBy = "mobil", cascade = CascadeType.ALL)
+    private Sedan sedan;
+
+    @OneToOne(mappedBy = "mobil", cascade = CascadeType.ALL)
+    private SUV suv;
+
+    @OneToOne(mappedBy = "mobil", cascade = CascadeType.ALL)
+    private Porche porche;
+
+    @OneToOne(mappedBy = "mobil", cascade = CascadeType.ALL)
+    private Ford ford;
 }
