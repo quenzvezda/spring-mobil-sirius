@@ -32,16 +32,26 @@ public class MobilCrudServiceImpl implements MobilCrudService {
     private FordRepository fordRepository;
     @Autowired
     private JenisMobilRepository jenisMobilRepository;
+    @Autowired
+    private RodaRepository rodaRepository;
 
     @Override
     @Transactional
-    public MobilResponseDto createMobil(MobilCreationDto mobilCreationDto) {
+    public MobilResponseDto createMobil(MobilCreationDto mobilCreationDto, int jumlahRoda) {
         Mobil mobil = new Mobil();
         mobil.setNoRangka(mobilCreationDto.getNoRangka());
         mobil.setTahun(mobilCreationDto.getTahun());
         mobil.setWarna(mobilCreationDto.getWarna());
         mobil.setStatus(mobilCreationDto.getStatus());
         mobil = mobilRepository.save(mobil);
+
+        // Menambahkan Roda
+        for (int i = 0; i < jumlahRoda; i++) {
+            Roda roda = new Roda();
+            roda.setKondisi(100); // Kondisi awal roda baru adalah 100%
+            roda.setMobil(mobil);
+            rodaRepository.save(roda);
+        }
 
         if ("sedan".equalsIgnoreCase(mobilCreationDto.getJenisMobil())) {
             Sedan sedan = new Sedan();

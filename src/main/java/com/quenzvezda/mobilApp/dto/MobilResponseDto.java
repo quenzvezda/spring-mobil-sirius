@@ -2,6 +2,8 @@ package com.quenzvezda.mobilApp.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MobilResponseDto {
     private Long mobilId;
@@ -22,4 +24,7 @@ public class MobilResponseDto {
     private String tipeSuspensi; // Untuk Porche
     private String tipeMesin; // Untuk Ford
     private Integer kapasitasTangkiBahanBakar; // Untuk Ford
+
+    // Informasi tentang roda
+    private List<RodaDto> roda;
 }

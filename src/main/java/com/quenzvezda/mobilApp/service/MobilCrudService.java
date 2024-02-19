@@ -7,7 +7,7 @@ import com.quenzvezda.mobilApp.dto.MobilResponseDto;
 import java.util.List;
 
 public interface MobilCrudService {
-    MobilResponseDto createMobil(MobilCreationDto mobilCreationDto);
+    MobilResponseDto createMobil(MobilCreationDto mobilCreationDto, int jumlahRoda);
 
     List<MobilDetailDto> getAllMobilDetails();
 

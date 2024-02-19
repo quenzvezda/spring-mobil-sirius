@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,4 +36,7 @@ public class Mobil {
 
     @OneToOne(mappedBy = "mobil", cascade = CascadeType.ALL)
     private Ford ford;
+
+    @OneToMany(mappedBy = "mobil", cascade = CascadeType.ALL)
+    private Set<Roda> roda;
 }

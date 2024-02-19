@@ -3,6 +3,7 @@ package com.quenzvezda.mobilApp.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class MobilCreationDto {
@@ -29,4 +30,7 @@ public class MobilCreationDto {
     // Spesifik untuk Ford
     private String tipeMesin;
     private Integer kapasitasTangkiBahanBakar;
+
+    // Informasi tentang roda
+    private List<RodaDto> roda;
 }

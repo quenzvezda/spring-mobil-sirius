@@ -3,6 +3,7 @@ package com.quenzvezda.mobilApp.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class MobilDetailDto {
@@ -21,4 +22,6 @@ public class MobilDetailDto {
     private String tipeSuspensi;
     private String tipeMesin;
     private Integer kapasitasTangkiBahanBakar;
+
+    private List<RodaDto> roda;
 }

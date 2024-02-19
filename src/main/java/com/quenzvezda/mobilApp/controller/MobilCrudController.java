@@ -18,8 +18,9 @@ public class MobilCrudController {
     private MobilCrudService mobilCrudService;
 
     @PostMapping("/new")
-    public ResponseEntity<MobilResponseDto> createMobil(@RequestBody MobilCreationDto mobilCreationDto) {
-        MobilResponseDto mobilResponseDto = mobilCrudService.createMobil(mobilCreationDto);
+    public ResponseEntity<MobilResponseDto> createMobil(@RequestBody MobilCreationDto mobilCreationDto,
+                                                        @RequestParam(name = "jumlahRoda", defaultValue = "4") int jumlahRoda) {
+        MobilResponseDto mobilResponseDto = mobilCrudService.createMobil(mobilCreationDto, jumlahRoda);
         return new ResponseEntity<>(mobilResponseDto, HttpStatus.CREATED);
     }
 
