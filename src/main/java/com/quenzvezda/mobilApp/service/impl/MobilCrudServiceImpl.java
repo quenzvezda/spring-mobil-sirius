@@ -218,5 +218,21 @@ public class MobilCrudServiceImpl implements MobilCrudService {
             ford.setKapasitasTangkiBahanBakar(mobilCreationDto.getKapasitasTangkiBahanBakar());
             fordRepository.save(ford);
         }
+
+        // Update roda
+        if (mobilCreationDto.getRoda() != null) {
+            for (RodaDto rodaDto : mobilCreationDto.getRoda()) {
+                Roda roda;
+                if (rodaDto.getId() != null) {
+                    roda = rodaRepository.findById(rodaDto.getId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Roda dengan ID " + rodaDto.getId() + " tidak ditemukan"));
+                } else {
+                    roda = new Roda();
+                    roda.setMobil(mobil);
+                }
+                roda.setKondisi(rodaDto.getKondisi());
+                rodaRepository.save(roda);
+            }
+        }
     }
 }
