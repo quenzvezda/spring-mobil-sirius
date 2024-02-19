@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -39,4 +40,9 @@ public class Mobil {
 
     @OneToMany(mappedBy = "mobil", cascade = CascadeType.ALL)
     private Set<Roda> roda;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, noRangka, tahun, warna, status);
+    }
 }

@@ -3,6 +3,7 @@ package com.quenzvezda.mobilApp.service.impl;
 import com.quenzvezda.mobilApp.dto.MobilCreationDto;
 import com.quenzvezda.mobilApp.dto.MobilDetailDto;
 import com.quenzvezda.mobilApp.dto.MobilResponseDto;
+import com.quenzvezda.mobilApp.dto.RodaDto;
 import com.quenzvezda.mobilApp.model.*;
 import com.quenzvezda.mobilApp.repository.*;
 import com.quenzvezda.mobilApp.service.MobilCrudService;
@@ -108,7 +109,9 @@ public class MobilCrudServiceImpl implements MobilCrudService {
 
     @Override
     public List<MobilDetailDto> getAllMobilDetails() {
-        return mobilRepository.findAll().stream().map(this::convertToMobilDetailDto).collect(Collectors.toList());
+        return mobilRepository.findAll().stream()
+                .map(this::convertToMobilDetailDto)
+                .collect(Collectors.toList());
     }
 
     private MobilDetailDto convertToMobilDetailDto(Mobil mobil) {
@@ -139,6 +142,17 @@ public class MobilCrudServiceImpl implements MobilCrudService {
             dto.setTipeMesin(mobil.getFord().getTipeMesin());
             dto.setKapasitasTangkiBahanBakar(mobil.getFord().getKapasitasTangkiBahanBakar());
         }
+
+        // Konversi 1 set roda
+        List<RodaDto> rodaDtoList = mobil.getRoda().stream()
+                .map(roda -> {
+                    RodaDto rodaDto = new RodaDto();
+                    rodaDto.setId(roda.getId());
+                    rodaDto.setKondisi(roda.getKondisi());
+                    return rodaDto;
+                })
+                .collect(Collectors.toList());
+        dto.setRoda(rodaDtoList);
 
         return dto;
     }

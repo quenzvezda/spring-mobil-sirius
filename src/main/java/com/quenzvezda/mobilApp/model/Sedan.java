@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,9 @@ public class Sedan {
     @OneToOne
     @JoinColumn(name = "mobil_id", referencedColumnName = "id")
     private Mobil mobil;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mobilId, panjangBodi, tipeAtap);
+    }
 }
