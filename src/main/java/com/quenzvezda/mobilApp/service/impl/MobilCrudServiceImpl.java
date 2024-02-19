@@ -158,12 +158,16 @@ public class MobilCrudServiceImpl implements MobilCrudService {
     }
 
     @Override
+    @Transactional
     public void deleteMobil(Long mobilId) {
-        // Cek apakah mobil dengan ID tersebut ada di database
-        if (!mobilRepository.existsById(mobilId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan");
-        }
-        mobilRepository.deleteById(mobilId);
+        Mobil mobil = mobilRepository.findById(mobilId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mobil dengan ID " + mobilId + " tidak ditemukan"));
+
+        // Hapus semua roda yang terkait dengan mobil ini
+        rodaRepository.deleteAll(mobil.getRoda());
+
+        // Hapus mobil
+        mobilRepository.delete(mobil);
     }
 
     @Override
