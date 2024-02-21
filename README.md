@@ -31,7 +31,7 @@ Java Spring CRUD Mobil is a web application for managing information about cars.
 - DELETE /mobil/{id}: Delete a car by ID.
 
 ## Additional Information
-- **Front-end Application**: You can also use the front-end application to interact with the back-end. Clone the repository at [fe-mobil-sirius](https://github.com/quenzvezda/fe-mobil-sirius) and follow the instructions in its README to run the front-end application.
+- **Front-end Application**: You can also use the front-end application to interact with the back-end. Clone the repository at [fe-mobil-sirius](https://github.com/quenzvezda/fe-mobil-sirius) and follow the instructions in its README to run the front-end application. **Or** you can go this link [https://fe-mobil-sirius.vercel.app/mobil](https://fe-mobil-sirius.vercel.app/mobil).
 - **Database Setup**: Use the provided mobil_sirius.sql file to seed the database with initial data for testing purposes.
 
    
